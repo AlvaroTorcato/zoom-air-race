@@ -63,6 +63,13 @@ useEventSelection(events)
 }
 
 @media (max-width: 768px) {
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+  }
+
   .split-view {
     grid-template-columns: 1fr;
     grid-template-rows: 50vh 1fr;
