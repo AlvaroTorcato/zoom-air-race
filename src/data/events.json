@@ -1,0 +1,92 @@
+[
+  {
+    "id": "evt-001",
+    "title": "Red Bull Air Race — Abu Dhabi",
+    "description": "Opening round of the season over the Arabian Gulf coastline.",
+    "address": "Corniche Road, Abu Dhabi",
+    "country": "UAE",
+    "coordinates": { "lat": 24.4539, "lng": 54.3773 },
+    "category": "A"
+  },
+  {
+    "id": "evt-002",
+    "title": "Sky Duel — Budapest",
+    "description": "High-speed pylons race threading low over the Danube between the Chain Bridge and Parliament.",
+    "address": "Danube Riverfront, Budapest",
+    "country": "Hungary",
+    "coordinates": { "lat": 47.4979, "lng": 19.0402 },
+    "category": "B"
+  },
+  {
+    "id": "evt-003",
+    "title": "Pacific Sprint — Sydney",
+    "description": "Tight turns over Sydney Harbour with the Opera House as a backdrop.",
+    "address": "Sydney Harbour, NSW",
+    "country": "Australia",
+    "coordinates": { "lat": -33.8568, "lng": 151.2153 },
+    "category": "A"
+  },
+  {
+    "id": "evt-004",
+    "title": "Adriatic Cup — Split",
+    "description": "A coastal circuit hugging the Adriatic sea cliffs south of the old city.",
+    "address": "Bačvice Beach, Split",
+    "country": "Croatia",
+    "coordinates": { "lat": 43.5081, "lng": 16.4402 },
+    "category": "B"
+  },
+  {
+    "id": "evt-005",
+    "title": "Monsoon Challenge — Kuala Lumpur",
+    "description": "Night race through the city skyline corridor between the Petronas Towers.",
+    "address": "KLCC Park, Kuala Lumpur",
+    "country": "Malaysia",
+    "coordinates": { "lat": 3.1579, "lng": 101.7119 },
+    "category": "A"
+  },
+  {
+    "id": "evt-006",
+    "title": "Alpine Thunder — Innsbruck",
+    "description": "Mountain valley course with tight banking turns at altitude in the Austrian Alps.",
+    "address": "Inn Riverbank, Innsbruck",
+    "country": "Austria",
+    "coordinates": { "lat": 47.2692, "lng": 11.4041 },
+    "category": "B"
+  },
+  {
+    "id": "evt-007",
+    "title": "Far East Invitational — Osaka",
+    "description": "High-precision urban circuit weaving between Osaka Bay landmarks.",
+    "address": "Osaka Bay, Nankō",
+    "country": "Japan",
+    "coordinates": { "lat": 34.6469, "lng": 135.4323 },
+    "category": "A"
+  },
+  {
+    "id": "evt-008",
+    "title": "Sahara Dash — Marrakech",
+    "description": "Desert edge course with dust-cloud spectacle at sunset over the Atlas foothills.",
+    "address": "Menara Gardens, Marrakech",
+    "country": "Morocco",
+    "coordinates": { "lat": 31.6225, "lng": -8.0090 },
+    "category": "B"
+  },
+  {
+    "id": "evt-009",
+    "title": "Nordic Blitz — Helsinki",
+    "description": "Summer-night race over the archipelago islands at the Baltic Sea entrance.",
+    "address": "South Harbour, Helsinki",
+    "country": "Finland",
+    "coordinates": { "lat": 60.1699, "lng": 24.9384 },
+    "category": "A"
+  },
+  {
+    "id": "evt-010",
+    "title": "Golden Gate Classic — San Francisco",
+    "description": "Season finale circuit framing the Golden Gate Bridge in every banking turn.",
+    "address": "Crissy Field, San Francisco",
+    "country": "USA",
+    "coordinates": { "lat": 37.8044, "lng": -122.4679 },
+    "category": "B"
+  }
+]
