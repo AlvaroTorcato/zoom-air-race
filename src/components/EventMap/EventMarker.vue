@@ -50,12 +50,14 @@ watch(() => [hoveredId.value, selectedId.value], () => {
 </template>
 
 <style>
+/* Nota: Mantemos sem scoped para o Leaflet detetar as classes */
+
 .marker-default {
   background-color: #3b82f6;
   border: 2px solid white;
   border-radius: 50%;
   box-shadow: 0 2px 4px rgba(0,0,0,0.4);
-  transition: all 0.2s ease-in-out;
+  transition: background-color 0.2s, width 0.2s, height 0.2s, margin 0.2s;
 }
 
 .marker-highlighted {
@@ -64,5 +66,6 @@ watch(() => [hoveredId.value, selectedId.value], () => {
   border-radius: 50%;
   box-shadow: 0 4px 8px rgba(0,0,0,0.6);
   z-index: 1000 !important;
+  transition: background-color 0.2s, width 0.2s, height 0.2s, margin 0.2s;
 }
 </style>
