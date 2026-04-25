@@ -15,20 +15,54 @@ const highlightedIcon = L.divIcon({ className: 'marker-highlighted', iconSize: [
 
 let marker
 
-onMounted(() => {
+const createMarker = () => {
+  if (!props.map || marker) return
   marker = L.marker([props.event.coordinates.lat, props.event.coordinates.lng])
-    .addTo(props.map)
-    .on('mouseover', () => setHovered(props.event.id))
-    .on('mouseout', () => setHovered(null))
-    .on('click', () => setSelected(props.event.id))
+      .addTo(props.map)
+      .on('mouseover', () => setHovered(props.event.id))
+      .on('mouseout', () => setHovered(null))
+      .on('click', () => setSelected(props.event.id))
   marker.bindPopup(`<strong>${props.event.title}</strong><p>${props.event.description}</p>`)
+  const isActive = hoveredId.value === props.event.id || selectedId.value === props.event.id
+  marker.setIcon(isActive ? highlightedIcon : defaultIcon)
+}
+
+onMounted(() => {
+  createMarker()
 })
 
-onUnmounted(() => marker.remove())
+watch(() => props.map, () => {
+  createMarker()
+})
 
-watch([hoveredId, selectedId], () => {
+onUnmounted(() => {
+  if (marker) marker.remove()
+})
+
+watch(() => [hoveredId.value, selectedId.value], () => {
   if (!marker) return
   const isActive = hoveredId.value === props.event.id || selectedId.value === props.event.id
   marker.setIcon(isActive ? highlightedIcon : defaultIcon)
 })
 </script>
+
+<template>
+</template>
+
+<style>
+.marker-default {
+  background-color: #3b82f6;
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  transition: all 0.2s ease-in-out;
+}
+
+.marker-highlighted {
+  background-color: #ef4444;
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+  z-index: 1000 !important;
+}
+</style>
