@@ -1,47 +1,71 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { useEvents } from '@/composables/useEvents'
+import { useEventSelection } from '@/composables/useEventSelection'
+import FilterBar from '@/components/FilterBar.vue'
+import EventMap from '@/components/EventMap/EventMap.vue'
+import EventList from '@/components/EventList/EventList.vue'
+
+const { events } = useEvents()
+useEventSelection(events)
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <div class="app">
+    <header class="app-header">
+      <h1>Air Race Events</h1>
+      <FilterBar />
+    </header>
+    <main class="split-view">
+      <EventMap class="map-panel" />
+      <EventList class="list-panel" />
+    </main>
+  </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+.app-header h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-heading);
+  white-space: nowrap;
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+.split-view {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  flex: 1;
+  min-height: 0;
+}
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+.map-panel {
+  height: 100%;
+}
+
+.list-panel {
+  height: 100%;
+  overflow-y: auto;
+  border-left: 1px solid var(--color-border);
+}
+
+@media (max-width: 768px) {
+  .split-view {
+    grid-template-columns: 1fr;
+    grid-template-rows: 50vh 1fr;
   }
 }
 </style>
