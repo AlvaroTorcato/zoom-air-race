@@ -50,7 +50,6 @@ watch(() => [hoveredId.value, selectedId.value], () => {
 </template>
 
 <style>
-/* Nota: Mantemos sem scoped para o Leaflet detetar as classes */
 
 .marker-default {
   background-color: #3b82f6;
