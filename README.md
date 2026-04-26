@@ -1,6 +1,6 @@
 # Zooom Air Race
 
-An Air Race event overview page with a map + list view, category filtering, and bidirectional hover/click sync between the two views.
+An Air Race event overview page with a map + list view, category filtering, and bidirectional hover/click sync between the two views. Events are served by a Python REST API backed by PostgreSQL.
 
 ## Setup
 
@@ -11,28 +11,64 @@ npm run dev
 
 Open [http://localhost:5173](http://localhost:5173).
 
+> The dev server proxies `/api` to `http://localhost:8000`. Start the API first (see below).
 
 ```sh
 npm run build    # production build
 npm run preview  # preview production build locally
 ```
 
+## REST API
+
+A FastAPI + PostgreSQL backend lives in `api/`. It exposes CRUD endpoints for events.
+
+### Run locally (outside Docker)
+
+```sh
+# Start only Postgres
+docker compose up -d postgres
+
+# In a separate terminal
+cd api
+export DATABASE_URL=postgresql://airrace:airrace@localhost:5432/airrace
+alembic upgrade head
+python -m scripts.seed      # load the 10 sample events (idempotent)
+uvicorn app.main:app --reload --port 8000
+```
+
+### Endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/events` | List all events. Supports `?category=A\|B` |
+| `GET` | `/api/events/{id}` | Get a single event |
+| `POST` | `/api/events` | Create an event |
+| `PUT` | `/api/events/{id}` | Full replacement update |
+| `PATCH` | `/api/events/{id}` | Partial update |
+| `DELETE` | `/api/events/{id}` | Delete an event |
+
+Interactive docs (Swagger UI) are available at [http://localhost:8000/docs](http://localhost:8000/docs) when the API is running.
+
+### Postman collection
+
+Import `api/zooom-air-race.postman_collection.json` into Postman. The collection uses a `baseUrl` variable (default `http://localhost:8000`) and includes a request for every endpoint.
+
 ## Docker
 
-Build and run with Docker Compose:
+Starts Postgres, the Python API, and the Vue frontend together:
 
 ```sh
 docker compose up -d --build
+docker compose exec api python -m scripts.seed   # first run only
 ```
 
-The app is served by Nginx on port 80. To use a different port (e.g.: 8080), change the left side of the mapping in `docker-compose.yml`:
+| Service | URL |
+|---------|-----|
+| Frontend | [http://localhost](http://localhost) |
+| API | [http://localhost:8000](http://localhost:8000) |
+| API docs | [http://localhost:8000/docs](http://localhost:8000/docs) |
 
-```yaml
-ports:
-  - "8080:80"
-```
-
-To stop:
+To stop (keeps the database volume):
 
 ```sh
 docker compose down
@@ -49,7 +85,7 @@ Test files live in `src/__tests__/`. Leaflet-dependent components (`EventMap`, `
 
 ## Architecture
 
-Vue 3 + Vite + Leaflet. All components use `<script setup>` (Composition API).
+Vue 3 + Vite + Leaflet frontend, FastAPI + PostgreSQL backend.
 
 ```
 src/
@@ -63,12 +99,26 @@ src/
 │   │   └── EventMarker.vue # Single Leaflet marker (renderless)
 │   └── FilterBar.vue       # Category filter buttons
 ├── composables/
-│   ├── useEvents.js         # Data layer: imports events.json
+│   ├── useEvents.js         # Data layer: fetches from /api/events
 │   └── useEventSelection.js # Shared state: hover, selected, filter
 ├── data/
-│   └── events.json          # Static dataset
+│   └── events.json          # Reference data (used by seed script)
 ├── App.vue            # Layout root; wires useEvents → useEventSelection
 └── main.js            # Entry point
+
+api/
+├── app/
+│   ├── main.py        # FastAPI app, CORS, router mount
+│   ├── models.py      # SQLAlchemy Event model
+│   ├── schemas.py     # Pydantic request/response schemas
+│   ├── crud.py        # DB operations
+│   ├── database.py    # Engine and session dependency
+│   └── routers/
+│       └── events.py  # All /api/events endpoints
+├── alembic/           # Database migrations
+├── scripts/
+│   └── seed.py        # One-shot idempotent seed
+└── Dockerfile
 ```
 
 ### State Design Pattern
@@ -117,10 +167,6 @@ All components use `<script setup>` for minimal boilerplate. Composables are pla
 ### URL-driven state
 
 Currently refreshing the page loses the active filter and selection. Encoding `?category=A&selected=evt-007` in the query string would make views shareable and bookmarkable. `useEventSelection` is the only place that would need to read from and write to `window.location`, no component changes required.
-
-### Real API / CMS integration
-
-`useEvents.js` is the designated swap point. Connecting a headless CMS or a REST endpoint means replacing the static import with an async fetch and adding `loading` and `error` refs. The rest of the app is already decoupled from the data source.
 
 ### Better UI
 
