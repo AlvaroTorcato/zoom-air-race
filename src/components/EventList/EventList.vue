@@ -34,13 +34,19 @@ watch(selectedId, async (id) => {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 4px;
+  gap: 0;
+  padding: 8px;
+  background: var(--color-background);
+}
+
+.event-list > * + * {
+  border-top: 1px solid var(--color-border);
 }
 
 .empty-state {
-  padding: 16px;
+  padding: 24px 16px;
   text-align: center;
-  color: var(--color-text-muted, #888);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
 }
 </style>
