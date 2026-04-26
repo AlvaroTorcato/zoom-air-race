@@ -2,8 +2,10 @@
 import { ref, watch, nextTick } from 'vue'
 import EventCard from './EventCard.vue'
 import { useEventSelection } from '@/composables/useEventSelection'
+import { useEvents } from '@/composables/useEvents'
 
-const { filteredEvents, selectedId } = useEventSelection()
+const { filteredEvents, selectedId, activeCategory } = useEventSelection()
+const { loading } = useEvents()
 const listEl = ref(null)
 
 watch(selectedId, async (id) => {
@@ -22,7 +24,10 @@ watch(selectedId, async (id) => {
       :event="event"
       :data-event-id="event.id"
     />
-    <p v-if="filteredEvents.length === 0" class="empty-state">
+    <p v-if="!loading && filteredEvents.length === 0 && !activeCategory" class="empty-state">
+      No data from the API.
+    </p>
+    <p v-else-if="filteredEvents.length === 0 && activeCategory" class="empty-state">
       No events for this category.
     </p>
   </div>

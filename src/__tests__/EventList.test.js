@@ -1,8 +1,12 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { ref } from 'vue'
 import EventList from '@/components/EventList/EventList.vue'
 import { useEventSelection } from '@/composables/useEventSelection'
+
+vi.mock('@/composables/useEvents', () => ({
+  useEvents: () => ({ events: ref([]), loading: ref(false), error: ref(null) })
+}))
 
 const events = [
   { id: 'e1', title: 'Race 1', description: 'Desc 1', address: '1 St', country: 'France', category: 'A' },
@@ -21,8 +25,15 @@ describe('EventList', () => {
     expect(wrapper.findAll('.event-card')).toHaveLength(2)
   })
 
-  it('displays empty-state message when filteredEvents is empty', () => {
+  it('shows "No data from the API." when events are empty and filter is all', () => {
     useEventSelection(ref([]))
+    const wrapper = mount(EventList)
+    expect(wrapper.text()).toContain('No data from the API.')
+  })
+
+  it('shows category empty-state when a category filter yields no results', () => {
+    const { setCategory } = useEventSelection(ref([]))
+    setCategory('A')
     const wrapper = mount(EventList)
     expect(wrapper.text()).toContain('No events for this category.')
   })
