@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch, nextTick } from 'vue'
-import EventCard from './EventCard.vue'
+import EventCard from '@/components/EventList/EventCard.vue'
 import { useEventSelection } from '@/composables/useEventSelection'
 import { useEvents } from '@/composables/useEvents'
 

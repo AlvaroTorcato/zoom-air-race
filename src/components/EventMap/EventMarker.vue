@@ -17,7 +17,10 @@ let marker
 
 const createMarker = () => {
   if (!props.map || marker) return
-  marker = L.marker([props.event.coordinates.lat, props.event.coordinates.lng])
+  const isActive = hoveredId.value === props.event.id || selectedId.value === props.event.id
+  marker = L.marker([props.event.coordinates.lat, props.event.coordinates.lng], {
+    icon: isActive ? highlightedIcon : defaultIcon
+  })
       .addTo(props.map)
       .on('mouseover', () => setHovered(props.event.id))
       .on('mouseout', () => setHovered(null))
@@ -31,8 +34,6 @@ const createMarker = () => {
       <span class="z-popup-loc">&#9679; ${address}, ${country}</span>
     </div>
   `, { maxWidth: 240, className: 'z-popup-wrapper' })
-  const isActive = hoveredId.value === props.event.id || selectedId.value === props.event.id
-  marker.setIcon(isActive ? highlightedIcon : defaultIcon)
 }
 
 onMounted(() => {
