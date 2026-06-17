@@ -1,6 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import './base.css';
 
 #app {
   height: 100vh;
   overflow: hidden;
+}
+
+.list-panel::-webkit-scrollbar {
+  width: 5px;
+}
+.list-panel::-webkit-scrollbar-track {
+  background: var(--z-gray-100);
+}
+.list-panel::-webkit-scrollbar-thumb {
+  background: var(--z-orange);
+  border-radius: 999px;
+}
+.list-panel::-webkit-scrollbar-thumb:hover {
+  background: var(--z-orange-dark);
 }

@@ -1,4 +1,30 @@
 services:
+
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: airrace
+      POSTGRES_USER: airrace
+      POSTGRES_PASSWORD: airrace
+    volumes:
+      - ./postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airrace -d airrace"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: ./api
+    environment:
+      DATABASE_URL: postgresql://airrace:airrace@postgres:5432/airrace
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
   app:
     build: .
     ports:

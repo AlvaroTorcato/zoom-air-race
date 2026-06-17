@@ -3,7 +3,7 @@ import { ref, shallowRef, onMounted, onUnmounted, watch } from 'vue'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useEventSelection } from '@/composables/useEventSelection'
-import EventMarker from './EventMarker.vue'
+import EventMarker from '@/components/EventMap/EventMarker.vue'
 
 const { filteredEvents, selectedId } = useEventSelection()
 
